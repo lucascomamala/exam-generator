@@ -22,21 +22,22 @@ int main (int argc, char *argv[]) {
 	/***************/
 	/** Variables **/
 	/***************/
+	
 	int i, count=0, index;
 	char answer;
 	
 	/* Nombre del archivo y cantidad de preguntas */
-	char stream[15] = "Capitales.csv";
-	int n = 24; // TODO
+	char stream[30] = "matematicas.csv";
+	int n = 25; // TODO
 	
 	/* Arrays para los reactivos y las respuestas */
-	char reactivos[n][50];
-	char resA[n][50];
-	char resB[n][50];
-	char resC[n][50];
-	char resD[n][50];
+	char reactivos[n][100];
+	char resA[n][100];
+	char resB[n][100];
+	char resC[n][100];
+	char resD[n][100];
 	
-	char respuestasTemp[4][50];
+	char respuestasTemp[4][100];
 	
 	/* Array para los puntosstream de cada reactivo */
 	int puntos[n];
