@@ -12,6 +12,8 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "csvparser.h"
+
 void swap (int *a, int *b);
 void shuffle (int arr[], int n);
 
@@ -20,11 +22,12 @@ int main (int argc, char *argv[]) {
 	/***************/
 	/** Variables **/
 	/***************/
-	int i, index;
+	int i, count=0, index;
 	char answer;
 	
-	/* Cantidad de preguntas */
-	int n = 10; // TODO
+	/* Nombre del archivo y cantidad de preguntas */
+	char stream[15] = "Capitales.csv";
+	int n = 24; // TODO
 	
 	/* Arrays para los reactivos y las respuestas */
 	char reactivos[n][50];
@@ -35,7 +38,7 @@ int main (int argc, char *argv[]) {
 	
 	char respuestasTemp[4][50];
 	
-	/* Array para los puntos de cada reactivo */
+	/* Array para los puntosstream de cada reactivo */
 	int puntos[n];
 	
 	/* Index arrays */
@@ -50,46 +53,47 @@ int main (int argc, char *argv[]) {
 	/** Inicializacion **/
 	/********************/
 	
-	/* Preguntas */
-	strcpy(reactivos[0], "Francia");
-	strcpy(reactivos[1], "Italia");
-	strcpy(reactivos[2], "Alemania");
-	strcpy(reactivos[3], "Espana");
-	strcpy(reactivos[4], "Suiza");
-	strcpy(reactivos[5], "Suecia");
-	strcpy(reactivos[6], "Reino Unido");
-	strcpy(reactivos[7], "Polonia");
-	strcpy(reactivos[8], "Austria");
-	strcpy(reactivos[9], "Portugal");
-	
-	/* Respuestas Correctoas */
-	strcpy(resA[0], "Paris");
-	strcpy(resA[1], "Roma");
-	strcpy(resA[2], "Berlin");
-	strcpy(resA[3], "Madrid");
-	strcpy(resA[4], "Berne");
-	strcpy(resA[5], "Estocolmo");
-	strcpy(resA[6], "Londres");
-	strcpy(resA[7], "Varsovia");
-	strcpy(resA[8], "Vienna");
-	strcpy(resA[9], "Lisbon");
-	
-	/* Respuestas Incorrectoas */
-	for (i=0; i<10; i++)
-		strcpy(resB[i], "x");
-	
-	for (i=0; i<10; i++)
-		strcpy(resC[i], "y");
-	
-	for (i=0; i<10; i++)
-		strcpy(resD[i], "z");
+	/* CsvParser
+	*  Author: James Ramm
+	*  Link: https://github.com/JamesRamm/csv_parser
+	*/
+	CsvParser *csvparser = CsvParser_new(stream, ",", 0);
+	CsvRow *row;
 
+	while ((row = CsvParser_getRow(csvparser)) ) {
+		const char **rowFields = CsvParser_getFields(row);
+		for (i = 0 ; i < CsvParser_getNumFields(row) ; i++) {
+			switch (count) {
+				case 0:
+					strcpy(reactivos[i], rowFields[i]);
+					break;
+				case 1:
+					strcpy(resA[i], rowFields[i]);
+					break;
+				case 2:
+					strcpy(resB[i], rowFields[i]);
+					break;
+				case 3:
+					strcpy(resC[i], rowFields[i]);
+					break;
+				case 4:
+					strcpy(resD[i], rowFields[i]);
+					break;
+				case 5:
+					puntos[i] = atoi(rowFields[i]);
+					break;
+			}
+		}
+		count++;
+		CsvParser_destroy_row(row);
+	}
+	CsvParser_destroy(csvparser);
 
 	/***********************/
 	/** Aplicar el examen **/
 	/***********************/
 	
-	//shuffle(reactivosInd, n);
+	shuffle(reactivosInd, n);
  	
  	/* Iteramos n veces (cuantas preguntas) */
 	for (i=0; i<n; i++) {
