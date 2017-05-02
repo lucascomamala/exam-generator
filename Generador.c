@@ -10,14 +10,19 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <time.h>
-
 #include "csvparser.h"
+#include <sys/time.h>
 
 void swap (int *a, int *b);
 void shuffle (int arr[], int n);
 
 int main (int argc, char *argv[]) {
+
+  /* Variables para medir el tiempo */ 
+ 	double segundos = 0;
+	double milis;
+	struct timeval final, inicio;
+	gettimeofday(&inicio, NULL);
 	
 	/***************/
 	/** Variables **/
@@ -115,14 +120,17 @@ int main (int argc, char *argv[]) {
 		printf("  B - %s\n", respuestasTemp[respuestasInd[1]]);
 		printf("  C - %s\n", respuestasTemp[respuestasInd[2]]);
 		printf("  D - %s\n", respuestasTemp[respuestasInd[3]]);
-		
+
+	
 		/* Capturamos y validamos la respuesta del usuario */
 		while (1) {
+		  
 			scanf(" %c", &answer);
 			answer = toupper(answer);
+		
 			if ( answer=='A' || answer=='B' || answer=='C' || answer=='D' ) break;
 		}
-		
+	
 		/* Checamos si la respuesta dada es la Correctoa */
 		if ( answer == 'A')
 			if ( strcmp(respuestasTemp[respuestasInd[0]], resA[reactivosInd[i]]) == 0 )
@@ -152,7 +160,10 @@ int main (int argc, char *argv[]) {
 	 	
 } //end_for
 	
-	
+		//Imprime resultados de tiempo :
+	gettimeofday(&final, NULL);
+	segundos = (double)(final.tv_usec - inicio.tv_usec) / 1000000 + (double)(final.tv_sec - inicio.tv_sec);
+	printf("Tiempo en el que se realizo el examen: %3.2f segundos\n", segundos);	
 	return 0;
 }
 
