@@ -3,10 +3,10 @@
 *
 * @brief	Genera examenes a partir de un archivo CSV
 *
-* @author Lucas Comamala
+* @author Lucas Comamala, Angeles Contreras, Brenda Themsel 
 * @date 	27/04/2017
 */
-
+/*Librerias*/
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -15,6 +15,9 @@
 
 void swap (int *a, int *b);
 void shuffle (int arr[], int n);
+
+
+/*Inicio del main*/
 
 int main (int argc, char *argv[]) {
 
@@ -161,22 +164,24 @@ int main (int argc, char *argv[]) {
 } //end_for
 	
 		//Imprime resultados de tiempo :
-	gettimeofday(&final, NULL);
-	segundos = (double)(final.tv_usec - inicio.tv_usec) / 1000000 + (double)(final.tv_sec - inicio.tv_sec);
-	printf("Tiempo en el que se realizo el examen: %3.2f segundos\n", segundos);	
+	gettimeofday(&final, NULL);//fin del clock
+	segundos = (double)(final.tv_usec - inicio.tv_usec) / 1000000 + (double)(final.tv_sec - inicio.tv_sec);//obtenemos cuanto se tardi 
+	printf("Tiempo en el que se realizo el examen: %3.2f segundos\n", segundos);//ponemos cuanto tiempo se tardo el alumno en realizar el examn	
+
+
 	return 0;
-}
+}//fin del main 
 
-/* 
-* Funciones para alterar el orden de un arreglo de ints al azar
-*/
 
+/* Brief:funcion que cambia la posicion de dos ints en un arreglo 
+ autor: Lucas Comamala*/
 void swap (int *a, int *b) {
 	int temp = *a;
 	*a = *b;
 	*b = temp;
 }
-
+/*Funcion que  altera el orden de un arreglo de ints, se usa para elegir preguntas en desorden
+Autor: Lucas Comamala*/
 void shuffle (int arr[], int n) {
 
 	srand(time(NULL));
