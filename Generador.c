@@ -3,52 +3,56 @@
 *
 * @brief	Genera examenes a partir de un archivo CSV
 *
-* @author Lucas Comamala
+* @author Lucas Comamala, Angeles Contreras, Brenda Themsel 
 * @date 	27/04/2017
 */
-
+/*Librerias*/
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include "csvparser.h"
-#include <sys/time.h>
+
 
 void swap (int *a, int *b);
 void shuffle (int arr[], int n);
 
-int main (int argc, char *argv[]) {
 
-  /* Variables para medir el tiempo */ 
- 	double segundos = 0;
-	double milis;
-	struct timeval final, inicio;
-	gettimeofday(&inicio, NULL);
-	
+/*Inicio del main*/
+
+int main () {
+
+ 
 	/***************/
 	/** Variables **/
 	/***************/
-	
-	int i, count=0, index;
+	int i, count=0, index, n;
 	char answer;
-	
+	char exam[30];
+	FILE *fp;
+
 	/* Nombre del archivo y cantidad de preguntas */
-	char stream[30] = "matematicas.csv";
-	int n = 25; // TODO
+	printf("Ingrese el nombre del archivo del cual quiere generar examen:");
+	scanf(" %[^\n]",exam);
+	printf("Ingrese la cantidad de preguntas que desea\n");
+	scanf("%d",&n);
 	
+	/* TODO: Append .csv */
+	fp = fopen(exam, "wt");
+
 	/* Arrays para los reactivos y las respuestas */
-	char reactivos[n][100];
-	char resA[n][100];
-	char resB[n][100];
-	char resC[n][100];
-	char resD[n][100];
+	char reactivos[30][100];
+	char resA[30][100];
+	char resB[30][100];
+	char resC[30][100];
+	char resD[30][100];
 	
 	char respuestasTemp[4][100];
-	
-	/* Array para los puntosstream de cada reactivo */
-	int puntos[n];
-	
+
+	/* Array para los puntos de cada reactivo */
+	int puntos[30];
+
 	/* Index arrays */
-	int reactivosInd[n];
+	int reactivosInd[30];
 	for (i=0; i<n; i++)
 		reactivosInd[i] = i;
 	int respuestasInd[] = {0, 1, 2, 3};
@@ -63,7 +67,7 @@ int main (int argc, char *argv[]) {
 	*  Author: James Ramm
 	*  Link: https://github.com/JamesRamm/csv_parser
 	*/
-	CsvParser *csvparser = CsvParser_new(stream, ",", 0);
+	CsvParser *csvparser = CsvParser_new(exam, ",", 0);
 	CsvRow *row;
 
 	while ((row = CsvParser_getRow(csvparser)) ) {
@@ -99,84 +103,62 @@ int main (int argc, char *argv[]) {
 	/** Aplicar el examen **/
 	/***********************/
 	
-	shuffle(reactivosInd, n);
+	shuffle(reactivosInd, 30);
  	
  	/* Iteramos n veces (cuantas preguntas) */
 	for (i=0; i<n; i++) {
  	
 		/* Imprimimos la pregunta */
-		printf("%d.- %s\n", i+1, reactivos[reactivosInd[i]]);
+	  fprintf(fp," %s", reactivos[reactivosInd[i]]);
 		
-		/* Creamos un array temporal con las respuestas de una solo pregunta y utilizamos shuffle */
-		strcpy(respuestasTemp[0], resA[reactivosInd[i]]);
-		strcpy(respuestasTemp[1], resB[reactivosInd[i]]);
-		strcpy(respuestasTemp[2], resC[reactivosInd[i]]);
-		strcpy(respuestasTemp[3], resD[reactivosInd[i]]);
-		
-		shuffle(respuestasInd, 4);	 	
-		
-		/* Imprimimos las respuestas */
-		printf("  A - %s\n", respuestasTemp[respuestasInd[0]]);
-		printf("  B - %s\n", respuestasTemp[respuestasInd[1]]);
-		printf("  C - %s\n", respuestasTemp[respuestasInd[2]]);
-		printf("  D - %s\n", respuestasTemp[respuestasInd[3]]);
+                         	}
+	fprintf(fp,"\n");
+	for (i=0; i<n; i++){
 
-	
-		/* Capturamos y validamos la respuesta del usuario */
-		while (1) {
-		  
-			scanf(" %c", &answer);
-			answer = toupper(answer);
-		
-			if ( answer=='A' || answer=='B' || answer=='C' || answer=='D' ) break;
-		}
-	
-		/* Checamos si la respuesta dada es la Correctoa */
-		if ( answer == 'A')
-			if ( strcmp(respuestasTemp[respuestasInd[0]], resA[reactivosInd[i]]) == 0 )
-				printf("Correcto\n");
-			else
-				printf("Incorrecto\n");
-		
-		else if ( answer == 'B')
-			if ( strcmp(respuestasTemp[respuestasInd[1]], resA[reactivosInd[i]]) == 0 )
-				printf("Correcto\n");
-			else
-				printf("Incorrecto\n");
-		
-		else if ( answer == 'C')
-			if ( strcmp(respuestasTemp[respuestasInd[2]], resA[reactivosInd[i]]) == 0 )
-				printf("Correcto\n");
-			else
-				printf("Incorrecto\n");
-		
-		else if ( answer == 'D')
-			if ( strcmp(respuestasTemp[respuestasInd[3]], resA[reactivosInd[i]]) == 0 )
-				printf("Correcto\n");
-			else
-				printf("Incorrecto\n");
-		
-		printf("\n");
+		fprintf(fp, "%s\n", resA[respuestasInd[i]]);
+	            }
+	    fprintf(fp,"\n");
+	for (i=0; i<n; i++){
+	        fprintf(fp,"\n");
+	}
+	fprintf(fp,"\n");
+	for (i=0; i<n; i++){
+		fprintf(fp," %s", resB[respuestasInd[i]]);
+	           }
+	     fprintf(fp,"\n");
+	for (i=0; i<n; i++){
+
+		fprintf(fp," %s", resC[respuestasInd[i]]);
+	}
+	fprintf(fp,"\n");
+	for (i=0; i<n; i++){
+
+		fprintf(" %s", resD[respuestasInd[i]]);
+	}
+	fprintf(fp,"\n");
+	for (i=0;i<n;i++){
+	  
+	  fprintf(" %d", puntos[respuestasInd[i]]);
+	}
+		fprintf(fp,"\n");
+       
 	 	
 } //end_for
-	
-		//Imprime resultados de tiempo :
-	gettimeofday(&final, NULL);
-	segundos = (double)(final.tv_usec - inicio.tv_usec) / 1000000 + (double)(final.tv_sec - inicio.tv_sec);
-	printf("Tiempo en el que se realizo el examen: %3.2f segundos\n", segundos);	
-	return 0;
-}
+	fclose(fp);
+	return 0;	
+		
+}//fin del main 
 
-/* 
-* Funciones para alterar el orden de un arreglo de ints al azar
-*/
 
+/* Brief:funcion que cambia la posicion de dos ints en un arreglo 
+ autor: Lucas Comamala*/
 void swap (int *a, int *b) {
 	int temp = *a;
 	*a = *b;
 	*b = temp;
 }
-
+/*Funcion que  altera el orden de un arreglo de ints, se usa para elegir preguntas en desorden
+Autor: Lucas Comamala*/
 void shuffle (int arr[], int n) {
 
 	srand(time(NULL));
