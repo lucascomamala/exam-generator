@@ -1,25 +1,22 @@
 /*
-* @file		Genrador.c
+* @file		Examinador.c
 *
-* @brief	Genera examenes a partir de un archivo CSV
+* @brief	Aplica y califica  examenes a partir de un archivo CSV
 *
 * @author Lucas Comamala, Angeles Contreras, Brenda Themsel 
 * @date 	27/04/2017
 */
-/*Librerias*/
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "csvparser.h"
 #include <sys/time.h>
+#include "csvparser.h"
 
-void swap (int *a, int *b);
 void shuffle (int arr[], int n);
+void swap (int *a, int *b);
 
-
-/*Inicio del main*/
-
-int main (int argc, char *argv[]) {
+void examinador () {
 
   /* Variables para medir el tiempo */ 
  	double segundos = 0;
@@ -31,12 +28,23 @@ int main (int argc, char *argv[]) {
 	/** Variables **/
 	/***************/
 	
-	int i, count=0, index;
+	int i, count=0, index, n;
 	char answer;
+	char stream[40];
 	
-	/* Nombre del archivo y cantidad de preguntas */
-	char stream[30] = "matematicas.csv";
-	int n = 25; // TODO
+	/* Nombre del examen */
+	printf("Ingrese el nombre del examen (sin la extension):\n");
+	scanf(" %[^\n]", stream);
+	strcat(stream, ".csv");
+	printf("\n");
+	
+	/* Checa la cantidad de preguntas que hay en el examen */
+	CsvParser *csvparserT = CsvParser_new(stream, ",", 0);
+	CsvRow *rowT;
+	rowT = CsvParser_getRow(csvparserT);
+	n = CsvParser_getNumFields(rowT);
+	CsvParser_destroy_row(rowT);
+	CsvParser_destroy(csvparserT);
 	
 	/* Arrays para los reactivos y las respuestas */
 	char reactivos[n][100];
@@ -167,11 +175,8 @@ int main (int argc, char *argv[]) {
 	gettimeofday(&final, NULL);//fin del clock
 	segundos = (double)(final.tv_usec - inicio.tv_usec) / 1000000 + (double)(final.tv_sec - inicio.tv_sec);//obtenemos cuanto se tardi 
 	printf("Tiempo en el que se realizo el examen: %3.2f segundos\n", segundos);//ponemos cuanto tiempo se tardo el alumno en realizar el examn	
-
-
-	return 0;
+	
 }//fin del main 
-
 
 /* Brief:funcion que cambia la posicion de dos ints en un arreglo 
  autor: Lucas Comamala*/
