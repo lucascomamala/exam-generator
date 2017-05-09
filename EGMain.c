@@ -19,9 +19,11 @@
 
 #include "Generador.h"
 #include "Examinador.h"
+#include "consultas.h"
 
 void generar(void);
 void examinar(void);
+void consultar(void);
 
 int main (int argc, char *argv[]) {
 	system("clear");
@@ -53,7 +55,7 @@ int main (int argc, char *argv[]) {
 				examinar();
 				break;
 			case '3':
-				//consultar();
+				consultar();
 				break;
 			default:
 				printf("Opcion no valida\n");
@@ -72,4 +74,8 @@ void generar() {
 
 void examinar() {
 	examinador();
+}
+
+void consultar() {
+	consultador();
 }
