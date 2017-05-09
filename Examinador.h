@@ -1,7 +1,7 @@
 /*
 * @file		Examinador.c
 *
-* @brief	Aplica y califica  examenes a partir de un archivo CSV
+* @brief	Aplica y califica examenes a partir de un archivo CSV
 *
 * @author Lucas Comamala, Angeles Contreras, Brenda Themsel 
 * @date 	27/04/2017
@@ -31,11 +31,17 @@ void examinador () {
 	int i, count=0, index, n;
 	char answer;
 	char stream[40];
+	long id;
 	
 	/* Nombre del examen */
 	printf("Ingrese el nombre del examen (sin la extension):\n");
 	scanf(" %[^\n]", stream);
 	strcat(stream, ".csv");
+	printf("\n");
+	
+	/* Nombre del examen */
+	printf("ID del alumno que va a tomar el examen:\n");
+	scanf("%li", &id);
 	printf("\n");
 	
 	/* Checa la cantidad de preguntas que hay en el examen */
@@ -171,22 +177,33 @@ void examinador () {
 	 	
 } //end_for
 	
-		//Imprime resultados de tiempo :
+	
+	/**************************************/
+	/** Display de Resultados del Examen **/
+	/**************************************/
+	
+	//Imprime resultados de tiempo :
 	gettimeofday(&final, NULL);//fin del clock
 	segundos = (double)(final.tv_usec - inicio.tv_usec) / 1000000 + (double)(final.tv_sec - inicio.tv_sec);//obtenemos cuanto se tardi 
 	printf("Tiempo en el que se realizo el examen: %3.2f segundos\n", segundos);//ponemos cuanto tiempo se tardo el alumno en realizar el examn	
 	
 }//fin del main 
 
-/* Brief:funcion que cambia la posicion de dos ints en un arreglo 
- autor: Lucas Comamala*/
+/* 
+*	Funcion que cambia la posicion de dos ints en un arreglo 
+*	Autor: Lucas Comamala
+*/
 void swap (int *a, int *b) {
 	int temp = *a;
 	*a = *b;
 	*b = temp;
 }
-/*Funcion que  altera el orden de un arreglo de ints, se usa para elegir preguntas en desorden
-Autor: Lucas Comamala*/
+
+/*
+*	Funcion que  altera el orden de un arreglo de intsutilizandop la funcion swap().
+*	Lo utilizamos para elegir preguntas en desorden
+*	Autor: Lucas Comamala
+*/
 void shuffle (int arr[], int n) {
 
 	srand(time(NULL));

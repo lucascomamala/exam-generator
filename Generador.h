@@ -64,11 +64,6 @@ int generador () {
 
 	/* Array para los puntos de cada reactivo */
 	int puntos[maxRea];
-
-	/* Index arrays */
-	int reactivosInd[n];
-	for (i=0; i<n; i++)
-		reactivosInd[i] = i;
 	
 	/**************/
 	/** Leer CSV **/
@@ -121,50 +116,50 @@ int generador () {
  	/* Escribimos la preguntas */
 	for (i=0; i<n; i++) {
 		if (i == n-1)
-			fprintf(newExam, "%s", reactivos[reactivosInd[i]]);
+			fprintf(newExam, "%s", reactivos[i]);
 		else
-			fprintf(newExam, "%s,", reactivos[reactivosInd[i]]);
+			fprintf(newExam, "%s,", reactivos[i]);
 	}
 	fprintf(newExam, "\n"); //New Line
 	
 	/* Escribimos la respuestas A */
 	for (i=0; i<n; i++)
 		if (i == n-1)
-			fprintf(newExam, "%s", resA[reactivosInd[i]]);
+			fprintf(newExam, "%s", resA[i]);
 		else
-			fprintf(newExam, "%s,", resA[reactivosInd[i]]);
+			fprintf(newExam, "%s,", resA[i]);
 	fprintf(newExam,"\n"); //New Line
 	
 	/* Escribimos la respuestas B */
 	for (i=0; i<n; i++)
 		if (i == n-1)
-			fprintf(newExam, "%s", resB[reactivosInd[i]]);
+			fprintf(newExam, "%s", resB[i]);
 		else
-			fprintf(newExam, "%s,", resB[reactivosInd[i]]);
+			fprintf(newExam, "%s,", resB[i]);
 	fprintf(newExam,"\n"); //New Line
 
 	/* Escribimos la respuestas C */
 	for (i=0; i<n; i++)
 		if (i == n-1)
-			fprintf(newExam, "%s,", resC[reactivosInd[i]]);
+			fprintf(newExam, "%s,", resC[i]);
 		else
-			fprintf(newExam, "%s,", resC[reactivosInd[i]]);
+			fprintf(newExam, "%s,", resC[i]);
 	fprintf(newExam,"\n"); //New Line
 
 	/* Escribimos la respuestas D */
 	for (i=0; i<n; i++)
 		if (i == n-1)
-			fprintf(newExam, "%s", resD[reactivosInd[i]]);
+			fprintf(newExam, "%s", resD[i]);
 		else
-			fprintf(newExam, "%s,", resD[reactivosInd[i]]);
+			fprintf(newExam, "%s,", resD[i]);
 	fprintf(newExam,"\n"); //New Line
 	
 	/* Escribimos los puntos */
 	for (i=0;i<n;i++)
 		if (i == n-1)
-			fprintf(newExam, "%d", puntos[reactivosInd[i]]);
+			fprintf(newExam, "%d", puntos[i]);
 		else
-			fprintf(newExam, "%d,", puntos[reactivosInd[i]]);
+			fprintf(newExam, "%d,", puntos[i]);
 
 	fclose(newExam);
 	
@@ -172,15 +167,21 @@ int generador () {
 	
 } //fin del main
 
-/* Brief:funcion que cambia la posicion de dos ints en un arreglo 
- autor: Lucas Comamala*/
+/* 
+*	Funcion que cambia la posicion de dos ints en un arreglo 
+*	Autor: Lucas Comamala
+*/
 void swap1 (int *a, int *b) {
 	int temp = *a;
 	*a = *b;
 	*b = temp;
 }
-/*Funcion que  altera el orden de un arreglo de ints, se usa para elegir preguntas en desorden
-Autor: Lucas Comamala*/
+
+/*
+*	Funcion que  altera el orden de un arreglo de intsutilizandop la funcion swap().
+*	Lo utilizamos para elegir preguntas en desorden
+*	Autor: Lucas Comamala
+*/
 void shuffle1 (int arr[], int n) {
 
 	srand(time(NULL));
