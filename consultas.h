@@ -9,9 +9,9 @@ int consultador()
   FILE *fp;
   unsigned char *linea;
   unsigned char *nombre;
-  int nump;
-  int num;
+  int nump, num, count=1;
   char c;
+  
   linea=malloc(sizeof(unsigned char));
   nombre=malloc(sizeof(unsigned char));
   printf("Ingrese el nombre del archivo\n");
@@ -37,23 +37,22 @@ int consultador()
       
        }*/
 
-  printf("*--------*--------------*---------------*----------*----------*\n");
-  printf("|Cuenta  | Calificacion | Res. Correctas|No. Preg  |   Tiempo |\n");
-  printf("*--------*--------------*---------------*----------*----------*\n");
-  while((c=getc(fp))!=EOF)
-    {
-      //printf("  ");
-      if(c==',')
-	{
-	  printf("           ");
+  printf("*--------*--------------*----------------*---------------*--------------------*\n");
+  printf("| Cuenta | Calificacion | Res. Correctas | No. Preguntas | Tiempo Transcurrido|\n");
+  printf("*--------*--------------*----------------*---------------*--------------------*\n");
+  
+	while( (c=getc(fp)) != EOF ) {
+		//printf("  ");
+		
+		if(c == ',')
+			printf("\t\t");
+		
+		else
+			printf("%c",c);
+		
 	}
-      else
-	{
-	  printf("%c",c);
-	}
-    }
-printf("*--------------------------------------------------------------\n");
-  printf("\n");
+	
+	printf("*-----------------------------------------------------------------------------*\n");
 
  fclose(fp);
 }//end
