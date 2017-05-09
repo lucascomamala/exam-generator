@@ -4,7 +4,7 @@
 #include <string.h>
 
 
-void main()
+int consultador()
 {
   FILE *fp;
   unsigned char *linea;
@@ -16,6 +16,8 @@ void main()
   nombre=malloc(sizeof(unsigned char));
   printf("Ingrese el nombre del archivo\n");
   scanf("%s",nombre);
+  strcat(nombre, "_cal.csv");
+  printf("\n");
   fp=fopen(nombre, "r"); //Abrir el archivo origen como modo lectura
  
   if(fp==NULL)
@@ -35,19 +37,22 @@ void main()
       
        }*/
 
-  printf("No.Examen|Calificacion|Res. Correctas|  No. Preg  |   Tiempo    \n");
+  printf("*--------*--------------*---------------*----------*----------*\n");
+  printf("|Cuenta  | Calificacion | Res. Correctas|No. Preg  |   Tiempo |\n");
+  printf("*--------*--------------*---------------*----------*----------*\n");
   while((c=getc(fp))!=EOF)
     {
       //printf("  ");
       if(c==',')
 	{
-	  printf("             ");
+	  printf("           ");
 	}
       else
 	{
 	  printf("%c",c);
 	}
     }
+printf("*--------------------------------------------------------------\n");
   printf("\n");
 
  fclose(fp);
