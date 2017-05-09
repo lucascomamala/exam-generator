@@ -22,24 +22,31 @@ void examinador () {
  	double segundos = 0;
 	double milis;
 	struct timeval final, inicio;
-	gettimeofday(&inicio, NULL);
 	
 	/***************/
 	/** Variables **/
 	/***************/
-	
-	int i, count=0, index, n;
+
+	int i,n, count=0, index, puntosObt=0, total=0;
+	double calificacion;
 	char answer;
-	char stream[40];
+	char input[40], stream[40], cals[40];
 	long id;
+	
+	FILE *califs;
 	
 	/* Nombre del examen */
 	printf("Ingrese el nombre del examen (sin la extension):\n");
-	scanf(" %[^\n]", stream);
+	scanf(" %[^\n]", input);
+	strcpy(stream, input);
 	strcat(stream, ".csv");
 	printf("\n");
 	
-	/* Nombre del examen */
+	/* Archivo para las calificaciones */
+	strcpy(cals, input);
+	strcat(cals, "_cal.csv");
+	
+	/* ID del alumno */
 	printf("ID del alumno que va a tomar el examen:\n");
 	scanf("%li", &id);
 	printf("\n");
@@ -118,6 +125,8 @@ void examinador () {
 	
 	shuffle(reactivosInd, n);
  	
+ 	gettimeofday(&inicio, NULL); //iniciamos el contador
+ 	
  	/* Iteramos n veces (cuantas preguntas) */
 	for (i=0; i<n; i++) {
  	
@@ -148,46 +157,54 @@ void examinador () {
 			if ( answer=='A' || answer=='B' || answer=='C' || answer=='D' ) break;
 		}
 	
-		/* Checamos si la respuesta dada es la Correctoa */
-		if ( answer == 'A')
+		/* Checamos si la respuesta dada es la correcta */
+		if ( answer == 'A') {
 			if ( strcmp(respuestasTemp[respuestasInd[0]], resA[reactivosInd[i]]) == 0 )
-				printf("Correcto\n");
-			else
-				printf("Incorrecto\n");
-		
-		else if ( answer == 'B')
+				puntosObt += puntos[reactivosInd[i]];   
+			total += puntos[reactivosInd[i]];
+		}
+
+		else if ( answer == 'B') {
 			if ( strcmp(respuestasTemp[respuestasInd[1]], resA[reactivosInd[i]]) == 0 )
-				printf("Correcto\n");
-			else
-				printf("Incorrecto\n");
+				puntosObt += puntos[reactivosInd[i]];
+			total += puntos[reactivosInd[i]];
+		}
 		
-		else if ( answer == 'C')
+		else if ( answer == 'C') {
 			if ( strcmp(respuestasTemp[respuestasInd[2]], resA[reactivosInd[i]]) == 0 )
-				printf("Correcto\n");
-			else
-				printf("Incorrecto\n");
+				puntosObt += puntos[reactivosInd[i]];
+			total += puntos[reactivosInd[i]];
+		}
 		
-		else if ( answer == 'D')
+		else if ( answer == 'D') {
 			if ( strcmp(respuestasTemp[respuestasInd[3]], resA[reactivosInd[i]]) == 0 )
-				printf("Correcto\n");
-			else
-				printf("Incorrecto\n");
+				puntosObt += puntos[reactivosInd[i]];	
+			total += puntos[reactivosInd[i]];
+		}
 		
 		printf("\n");
-	 	
-} //end_for
+		
+	} //end_for
 	
-	
-	/**************************************/
-	/** Display de Resultados del Examen **/
-	/**************************************/
-	
-	//Imprime resultados de tiempo :
+	//Obtenemos el tiempo transcurrido
+	//Codigo obtenido de Diego 
 	gettimeofday(&final, NULL);//fin del clock
-	segundos = (double)(final.tv_usec - inicio.tv_usec) / 1000000 + (double)(final.tv_sec - inicio.tv_sec);//obtenemos cuanto se tardi 
-	printf("Tiempo en el que se realizo el examen: %3.2f segundos\n", segundos);//ponemos cuanto tiempo se tardo el alumno en realizar el examn	
+	segundos = (double)(final.tv_usec - inicio.tv_usec) / 1000000 + (double)(final.tv_sec - inicio.tv_sec);
 	
-}//fin del main 
+	calificacion = puntosObt*10/total;
+	
+	//Imprimimos la calificacion y los datos relevantes
+	printf("Calificacion: %3.2f\n", calificacion);
+	printf("Puntos obtenidos: %d/%d\n", puntosObt, total);//imprimimos la cantidad de puntos que obtuvo el usuario
+	printf("Tiempo: %3.2f segundos\n", segundos);//ponemos cuanto tiempo se tardo el alumno en realizar el examn
+	
+	/* Abrimos o creamos un nuevo archivo CSV y guardamos las calificacion */
+	califs = fopen(cals, "a");
+	fprintf(califs, "%li,%3.2f,%d,%d,%3.2f", id, calificacion, puntosObt, total, segundos);
+	fprintf(califs, "\n");
+	fclose(califs);
+	
+}
 
 /* 
 *	Funcion que cambia la posicion de dos ints en un arreglo 
