@@ -12,9 +12,6 @@
 #include <stdlib.h>
 #include "csvparser.h"
 
-void shuffle1 (int arr[], int n);
-void swap1 (int *a, int *b);
-
 int generador () {
 
 	/***************/
@@ -110,8 +107,6 @@ int generador () {
 	/*******************************************/
 	/** Guardamos n preguntas en el nuevo CSV **/
 	/*******************************************/
-	
-	shuffle1(reactivosInd, n);
  	
  	/* Escribimos la preguntas */
 	for (i=0; i<n; i++) {
@@ -166,29 +161,3 @@ int generador () {
 	printf("Examen generado exitosamente!\n");
 	
 } //fin del main
-
-/* 
-*	Funcion que cambia la posicion de dos ints en un arreglo 
-*	Autor: Lucas Comamala
-*/
-void swap1 (int *a, int *b) {
-	int temp = *a;
-	*a = *b;
-	*b = temp;
-}
-
-/*
-*	Funcion que  altera el orden de un arreglo de intsutilizandop la funcion swap().
-*	Lo utilizamos para elegir preguntas en desorden
-*	Autor: Lucas Comamala
-*/
-void shuffle1 (int arr[], int n) {
-
-	srand(time(NULL));
-	int i;
-	
-	for (i = n-1; i > 0; i--) {
-		int j = rand() % (i+1);
-		swap1(&arr[i], &arr[j]);
-	}
-}

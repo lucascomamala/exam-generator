@@ -41,6 +41,7 @@ int main (int argc, char *argv[]) {
 		printf("0. Salir\n");
 	
 		scanf(" %[^\n]", opc);
+		printf("\n");
 		
 		switch (opc[0]) {
 			case '0':
