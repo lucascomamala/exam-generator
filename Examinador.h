@@ -27,20 +27,29 @@ void examinador () {
 	/** Variables **/
 	/***************/
 
-	int i,n, count=0, index, puntosObt=0, total=0;
+	int i,n, count=0, index, puntosObt=0, total=0,preguntas=0,respuestas=0;
 	double calificacion;
 	char answer;
 	char input[40], stream[40], cals[40];
 	long id;
 	
-	FILE *califs;
+	FILE *califs,*fp;
 	
 	/* Nombre del examen */
-	printf("Ingrese el nombre del examen (sin la extension):\n");
-	scanf(" %[^\n]", input);
-	strcpy(stream, input);
-	strcat(stream, ".csv");
-	printf("\n");
+	do{
+	  printf("Ingrese el nombre del examen (sin la extension):\n");
+	  scanf(" %[^\n]", input);
+	  strcpy(stream, input);
+	  strcat(stream, ".csv");
+	  printf("\n");
+	  fp=fopen(stream, "r"); //Abrir el archivo origen como modo lectura
+	  
+	  if(fp==NULL)
+	    {
+	      printf ("No se encontro el archivo\n");
+	      //exit(1);
+	    }//end if
+	}while(fp==NULL);
 	
 	/* Archivo para las calificaciones */
 	strcpy(cals, input);
@@ -132,7 +141,7 @@ void examinador () {
  	
 		/* Imprimimos la pregunta */
 		printf("%d.- %s\n", i+1, reactivos[reactivosInd[i]]);
-		
+		preguntas++;
 		/* Creamos un array temporal con las respuestas de una solo pregunta y utilizamos shuffle */
 		strcpy(respuestasTemp[0], resA[reactivosInd[i]]);
 		strcpy(respuestasTemp[1], resB[reactivosInd[i]]);
@@ -160,26 +169,27 @@ void examinador () {
 		/* Checamos si la respuesta dada es la correcta */
 		if ( answer == 'A') {
 			if ( strcmp(respuestasTemp[respuestasInd[0]], resA[reactivosInd[i]]) == 0 )
-				puntosObt += puntos[reactivosInd[i]];   
-			total += puntos[reactivosInd[i]];
+			  {	puntosObt += puntos[reactivosInd[i]]; 	respuestas++;  }
+			    total += puntos[reactivosInd[i]];
+		
 		}
 
 		else if ( answer == 'B') {
 			if ( strcmp(respuestasTemp[respuestasInd[1]], resA[reactivosInd[i]]) == 0 )
-				puntosObt += puntos[reactivosInd[i]];
-			total += puntos[reactivosInd[i]];
+			 {	puntosObt += puntos[reactivosInd[i]]; 	respuestas++;  }
+			    total += puntos[reactivosInd[i]];
 		}
 		
 		else if ( answer == 'C') {
 			if ( strcmp(respuestasTemp[respuestasInd[2]], resA[reactivosInd[i]]) == 0 )
-				puntosObt += puntos[reactivosInd[i]];
-			total += puntos[reactivosInd[i]];
+				 {	puntosObt += puntos[reactivosInd[i]]; 	respuestas++;  }
+			    total += puntos[reactivosInd[i]];
 		}
 		
 		else if ( answer == 'D') {
 			if ( strcmp(respuestasTemp[respuestasInd[3]], resA[reactivosInd[i]]) == 0 )
-				puntosObt += puntos[reactivosInd[i]];	
-			total += puntos[reactivosInd[i]];
+			 {	puntosObt += puntos[reactivosInd[i]]; 	respuestas++;  }
+			    total += puntos[reactivosInd[i]];
 		}
 		
 		printf("\n");
@@ -197,10 +207,10 @@ void examinador () {
 	printf("Calificacion: %3.2f\n", calificacion);
 	printf("Puntos obtenidos: %d/%d\n", puntosObt, total);//imprimimos la cantidad de puntos que obtuvo el usuario
 	printf("Tiempo: %3.2f segundos\n", segundos);//ponemos cuanto tiempo se tardo el alumno en realizar el examn
-	
+
 	/* Abrimos o creamos un nuevo archivo CSV y guardamos las calificacion */
 	califs = fopen(cals, "a");
-	fprintf(califs, "%li,%3.2f,%d,%d,%3.2f", id, calificacion, puntosObt, total, segundos);
+	fprintf(califs, "%li,%3.2f,%d,%d,%3.2f", id, calificacion, respuestas, preguntas, segundos);
 	fprintf(califs, "\n");
 	fclose(califs);
 	
