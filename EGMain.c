@@ -29,6 +29,7 @@ int main (int argc, char *argv[]) {
 	system("clear");
 	
 	char opc[5];
+	int numero;
 	
 	printf("\t\t\tSistema generador de examenes.\n");
 	printf("\tAutores: Lucas Comamala, Angeles Contreras, Brenda Themsel\n");
@@ -44,7 +45,10 @@ int main (int argc, char *argv[]) {
 	
 		scanf(" %[^\n]", opc);
 		printf("\n");
-		
+		numero= atoi(opc);
+		if(numero<=5 && numero >=0)
+		  {
+
 		switch (opc[0]) {
 			case '0':
 				break;
@@ -61,7 +65,8 @@ int main (int argc, char *argv[]) {
 				printf("Opcion no valida\n");
 				break;
 		} //end_switch
-		
+		  }//end if
+		else 	printf("Opcion no valida\n");
 	} while (opc[0] != '0');
 	
 	return 1;

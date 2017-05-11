@@ -21,13 +21,22 @@ int generador () {
 	int i, count=0, index, n, maxRea;
 	char answer;
 	char exam[40], archivo[40];
-	FILE *newExam;
+	FILE *newExam,*fp;
 
 	/* Nombre del archivo template */
-	printf("Ingrese el nombre del archivo fuente para generar el examen (sin la extension):\n");
-	scanf(" %[^\n]", archivo);
-	strcat(archivo, ".csv");
-	printf("\n");
+	do{
+	  printf("Ingrese el nombre del archivo fuente para generar el examen (sin la extension):\n");
+	  scanf(" %[^\n]", archivo);
+	  strcat(archivo, ".csv");
+	  printf("\n");
+	  fp=fopen(archivo, "r"); //Abrir el archivo origen como modo lectura
+	  
+	  if(fp==NULL)
+	    {
+	      printf ("No se encontro el archivo\n");
+	      // exit(1);
+	    }//end if
+	}while(fp==NULL);
 	
 	/* Checa la cantidad de preguntas que hay en el template */
 	CsvParser *csvparserT = CsvParser_new(archivo, ",", 0);

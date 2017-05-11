@@ -14,18 +14,19 @@ int consultador()
   
   linea=malloc(sizeof(unsigned char));
   nombre=malloc(sizeof(unsigned char));
-  printf("Ingrese el nombre del archivo\n");
-  scanf("%s",nombre);
-  strcat(nombre, "_cal.csv");
-  printf("\n");
-  fp=fopen(nombre, "r"); //Abrir el archivo origen como modo lectura
- 
-  if(fp==NULL)
-    {
-      printf ("No se encontro el archivo\n");
-      exit(1);
-    }//end ifgit stat
- 
+  do{
+    printf("Ingrese el nombre del archivo\n");
+    scanf("%s",nombre);
+    strcat(nombre, "_cal.csv");
+    printf("\n");
+    fp=fopen(nombre, "r"); //Abrir el archivo origen como modo lectura
+    
+    if(fp==NULL)
+      {
+	printf ("No se encontro el archivo\n");
+	//exit(1);
+      }//end ifgit stat
+  }while(fp==NULL);
   
   /*while(!feof(fp))
     {
